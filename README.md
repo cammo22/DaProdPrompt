@@ -14,7 +14,7 @@ Il progetto è una singola pagina HTML, senza dipendenze o installazione: è vel
 
 ## Sviluppo locale
 
-Apri `index.html` direttamente nel browser oppure avvia un server statico nella cartella del progetto. Le modifiche vengono pubblicate automaticamente su GitHub Pages a ogni push su `main` tramite GitHub Actions.
+Apri `daprodprompt.html` direttamente nel browser oppure avvia un server statico nella cartella del progetto. L'accesso da `index.html` resta disponibile tramite reindirizzamento. Le modifiche vengono pubblicate automaticamente su GitHub Pages a ogni push su `main` tramite GitHub Actions.
 
 ## Licenza
 
