@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🎰 DaProdSlot</title>
-<!-- DaProdSlot v1.0.1 — fix mobile: navbar sticky (non copre il selettore anni) -->
+<title>🎰 DaProdPrompt v1.0.1</title>
+<!-- DaProdPrompt v1.0.1 — fix mobile: navbar sticky (non copre il selettore anni) -->
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
 :root{
@@ -197,7 +197,7 @@ hr.sep{border:none;border-top:1px solid color-mix(in srgb,var(--accent) 15%,tran
 <!-- ===== NAVBAR STICKY ===== -->
 <nav class="navbar">
   <div class="nav-inner">
-    <span class="nav-logo">🎰 DaProdSlot <small class="ver">v1.0.1</small></span>
+    <span class="nav-logo">🎰 DaProdPrompt <small class="ver">v1.0.1</small></span>
     <div class="nav-saldo">
       <span class="lbl">portafoglio</span>
       <span id="saldo">500 Lire</span>
@@ -290,7 +290,7 @@ hr.sep{border:none;border-top:1px solid color-mix(in srgb,var(--accent) 15%,tran
   <!-- ===== ADMIN PANEL ===== -->
   <section id="sec-admin">
   <div id="adminPanel" class="panel">
-    <h2>🔑 Admin — DaProdSlot</h2>
+    <h2>🔑 Admin — DaProdPrompt</h2>
 
     <div class="frow">
       <label>prezzo di un prompt</label>
@@ -490,7 +490,7 @@ const DECADE_SHARE = {
 <script>
 'use strict';
 /* =====================================================================
-   DaProdSlot — logica di gioco
+   DaProdPrompt — logica di gioco
    Regole di riferimento: CONCETTI.md (nella stessa cartella)
    Dati: genres-data.js (GENRES_DATA, GENRES_DATA_META, DECADE_SHARE)
    Persistenza: localStorage chiave 'daprodslot_v1'
@@ -875,11 +875,18 @@ function copiaCombo(){
 function fallbackCopy(text, done){
   const area = document.createElement('textarea');
   area.value = text;
-  area.style.position = 'fixed'; area.style.opacity = '0';
+  area.setAttribute('readonly', '');
+  area.style.position = 'fixed';
+  area.style.left = '-9999px';
+  area.style.opacity = '0';
   document.body.appendChild(area);
+  area.focus();
   area.select();
-  try { document.execCommand('copy'); done(); } catch(e){ uiToast('copia manuale necessaria', false); }
+  let copied = false;
+  try { copied = document.execCommand('copy'); } catch(e){ copied = false; }
   document.body.removeChild(area);
+  if (copied) done();
+  else uiToast('copia manuale necessaria', false);
 }
 
 /* ricariche preset in euro (convertite in lire al cambio fisso) */
