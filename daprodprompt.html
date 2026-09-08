@@ -231,6 +231,11 @@ hr.sep{border:none;border-top:1px solid color-mix(in srgb,var(--accent) 15%,tran
         <div class="combo-txt" id="comboTxt">gira la slot per generare la combinazione</div>
         <button type="button" class="btn primary combo-copy" id="copiaComboBtn">📋 copia combinazione</button>
       </div>
+      <div class="combo-box" id="lockedBox">
+        <div class="combo-lbl">PROMPT BLOCCATI</div>
+        <div class="combo-txt" id="lockedTxt">blocca uno o più prompt per copiarli</div>
+        <button type="button" class="btn primary combo-copy" id="copiaLockedBtn">📋 copia prompt bloccati</button>
+      </div>
       <div id="statScreen"></div>
     </div>
   </section>
@@ -865,16 +870,26 @@ function promptFinale(){
   return current.map(it => it.g).join(', ');
 }
 function copiaCombo(){
-  const t = promptFinale();
-  if (!t){ uiToast('gira prima la slot', false); return; }
-  const done = () => uiToast('✅ combinazione copiata');
-  if (navigator.clipboard && window.isSecureContext){
-    navigator.clipboard.writeText(t).then(done).catch(() => fallbackCopy(t, done));
+  copiaTesto(promptFinale(), 'gira prima la slot');
+}
+function copiaBloccati(){
+  const t = locked.filter(Boolean).map(it => it.g).join(', ');
+  copiaTesto(t, 'blocca prima almeno un prompt');
+}
+function copiaTesto(text, emptyMessage){
+  if (!text){ uiToast(emptyMessage, false); return; }
+  const done = () => uiToast('✅ prompt copiato');
+  if (fallbackCopy(text)){
+    done();
     return;
   }
-  fallbackCopy(t, done);
+  if (navigator.clipboard && window.isSecureContext){
+    navigator.clipboard.writeText(text).then(done).catch(() => uiToast('copia manuale necessaria', false));
+    return;
+  }
+  uiToast('copia manuale necessaria', false);
 }
-function fallbackCopy(text, done){
+function fallbackCopy(text){
   const area = document.createElement('textarea');
   area.value = text;
   area.style.position = 'fixed';
@@ -894,8 +909,12 @@ function fallbackCopy(text, done){
   let copied = false;
   try { copied = document.execCommand('copy'); } catch(e){ copied = false; }
   document.body.removeChild(area);
-  if (copied) done();
-  else uiToast('copia manuale necessaria', false);
+  return copied;
+}
+function renderPromptBloccati(){
+  const el = document.getElementById('lockedTxt');
+  const prompts = locked.filter(Boolean).map(it => it.g);
+  el.textContent = prompts.length ? prompts.join(', ') : 'blocca uno o più prompt per copiarli';
 }
 
 /* ricariche preset in euro (convertite in lire al cambio fisso) */
@@ -1323,6 +1342,7 @@ function toggleLock(i){
   locked[i] = locked[i] ? null : current[i];
   const c = griglia.children[i];
   c.classList.toggle('locked', !!locked[i]);
+  renderPromptBloccati();
   uiToast(locked[i] ? `🔒 bloccato: ${locked[i].g}` : 'sbloccato');
 }
 function init(){
@@ -1330,6 +1350,7 @@ function init(){
   buildGriglia();
   setEra('all');
   renderTutto();
+  renderPromptBloccati();
   document.getElementById('spinBtn').addEventListener('click', spin);
   document.getElementById('carta1').addEventListener('click', () => compraCarte(1));
   document.getElementById('carta25').addEventListener('click', () => compraCarte(25));
@@ -1347,6 +1368,7 @@ function init(){
   document.getElementById('addCustomBtn').addEventListener('click', addCustom);
   document.getElementById('addFormBtn').addEventListener('click', addFormazione);
   document.getElementById('copiaComboBtn').addEventListener('click', copiaCombo);
+  document.getElementById('copiaLockedBtn').addEventListener('click', copiaBloccati);
   document.getElementById('salvaTiersBtn').addEventListener('click', salvaTiers);
   document.getElementById('resetBtn').addEventListener('click', resetStato);
   // ricerca: in admin è cliccabile (gestione/wizard), per l'utente è sola lettura
