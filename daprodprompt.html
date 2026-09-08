@@ -868,13 +868,17 @@ function copiaCombo(){
   const t = promptFinale();
   if (!t){ uiToast('gira prima la slot', false); return; }
   const done = () => uiToast('✅ combinazione copiata');
-  if (navigator.clipboard && window.isSecureContext){
-    navigator.clipboard.writeText(t).then(done).catch(() => fallbackCopy(t, done));
+  if (fallbackCopy(t)){
+    done();
     return;
   }
-  fallbackCopy(t, done);
+  if (navigator.clipboard && window.isSecureContext){
+    navigator.clipboard.writeText(t).then(done).catch(() => uiToast('copia manuale necessaria', false));
+    return;
+  }
+  uiToast('copia manuale necessaria', false);
 }
-function fallbackCopy(text, done){
+function fallbackCopy(text){
   const area = document.createElement('textarea');
   area.value = text;
   area.style.position = 'fixed';
@@ -894,8 +898,7 @@ function fallbackCopy(text, done){
   let copied = false;
   try { copied = document.execCommand('copy'); } catch(e){ copied = false; }
   document.body.removeChild(area);
-  if (copied) done();
-  else uiToast('copia manuale necessaria', false);
+  return copied;
 }
 
 /* ricariche preset in euro (convertite in lire al cambio fisso) */
