@@ -1340,12 +1340,6 @@ function init(){
     document.getElementById('valutaToggle').textContent = valuta === 'L' ? '£ Lire' : '€ Euro';
     renderSaldo(); renderInventario(); renderRicariche();
   });
-  document.getElementById('adminBtn').addEventListener('click', () => {
-    const p = document.getElementById('adminPanel');
-    const visibile = p.style.display === 'block';
-    p.style.display = visibile ? 'none' : 'block';
-    if (!visibile){ document.getElementById('sec-admin').scrollIntoView({ behavior: 'smooth' }); }
-  });
   document.getElementById('btnAdmin').addEventListener('click', () => setRuolo('admin'));
   document.getElementById('btnUtente').addEventListener('click', () => setRuolo('utente'));
   document.getElementById('salvaImpBtn').addEventListener('click', salvaImpostazioni);
