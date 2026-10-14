@@ -20,3 +20,14 @@ Apri `daprodprompt.html` direttamente nel browser oppure avvia un server statico
 ## Licenza
 
 Distribuito come progetto open source per esperimenti creativi.
+
+---
+
+<!-- discord-card -->
+## 💬 Community
+
+<p align="center">
+  <a href="https://discord.gg/Njs52aacwq"><img src=".github/discord-card.svg" alt="Entra nella community DaProd su Discord" width="720"></a>
+</p>
+
+Domande, idee, bug o solo voglia di chiacchierare? Entra nel **[Discord di DaProd](https://discord.gg/Njs52aacwq)**: ogni app ha la sua stanza e le nuove versioni arrivano in automatico.
