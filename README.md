@@ -3,6 +3,7 @@
 **DaProdPrompt** è una slot machine creativa per generare prompt completi in pochi secondi. Combina un ruolo, un obiettivo e uno stile per trasformare una semplice idea in una richiesta pronta da usare con il tuo assistente AI.
 
 [![Apri DaProdPrompt](https://img.shields.io/badge/Apri%20l'app-GitHub%20Pages-2ea44f?style=for-the-badge)](https://cammo22.github.io/DaProdPrompt/)
+[![Discord](https://img.shields.io/badge/Discord-DaProd-5865F2?logo=discord&logoColor=white)](https://discord.gg/Njs52aacwq)
 
 ## Come funziona
 
